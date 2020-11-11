@@ -25,62 +25,120 @@ Dataset and preparing
 Download the FLIR thermal dataset: https://www.flir.com/oem/adas/adas-dataset-form/
 
 The dataset has this structure:
+
 ├──FLIR_ADAS_1_3
+
 |  ├── train
+
 |      ├── Annotated_thermal_8_bit
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├── RGB
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├── thermal_8_bit
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├── thermal_16_bit
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├──thermal_annotations.json
+
 |  ├── val
+
 |      ├── Annotated_thermal_8_bit
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├── RGB
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├── thermal_8_bit
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├── thermal_16_bit
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├──thermal_annotations.json
+
 |  ├── video
+
 |      ├── Annotated_thermal_8_bit
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├── RGB
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├── thermal_8_bit
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├── thermal_16_bit
+
 |          ├── images 1
+
 |          ├── images 2
+
 |          ├── ...
+
 |      ├──thermal_annotations.json
+
 |  ├── ReadMe
+
+
 
 We use the images in thermal_8_bit for training and testing. Run the train_vld_split() in the scripts will divide the train/thermal_annotations.json into train/train.json and train/vld.json. The test data and labels are saved in val/thermal_annotations.json. The train_vld_split() can run once (keep the the same splitting) or everytime (change the splitting everytime).
 
