@@ -28,115 +28,115 @@ The dataset has this structure:
 
 ├──FLIR_ADAS_1_3
 
-|  ├── train
+|   ├── train
 
-|      ├── Annotated_thermal_8_bit
+|   |   ├── Annotated_thermal_8_bit
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├── RGB
+|   |   ├── RGB
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├── thermal_8_bit
+|   |   ├── thermal_8_bit
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├── thermal_16_bit
+|   |   ├── thermal_16_bit
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├──thermal_annotations.json
+|   |   └── thermal_annotations.json
 
 |  ├── val
 
-|      ├── Annotated_thermal_8_bit
+|   |   ├── Annotated_thermal_8_bit
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├── RGB
+|   |   ├── RGB
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├── thermal_8_bit
+|   |   ├── thermal_8_bit
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├── thermal_16_bit
+|   |   ├── thermal_16_bit
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├──thermal_annotations.json
+|   |   └── thermal_annotations.json
 
 |  ├── video
 
-|      ├── Annotated_thermal_8_bit
+|   |   ├── Annotated_thermal_8_bit
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├── RGB
+|   |   ├── RGB
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├── thermal_8_bit
+|   |   ├── thermal_8_bit
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├── thermal_16_bit
+|   |   ├── thermal_16_bit
 
-|          ├── images 1
+|   |   |   ├── images 1
 
-|          ├── images 2
+|   |   |   ├── images 2
 
-|          ├── ...
+|   |   |   ├── ...
 
-|      ├──thermal_annotations.json
+|   |   └── thermal_annotations.json
 
-|  ├── ReadMe
+|   └── ReadMe
 
 
 
