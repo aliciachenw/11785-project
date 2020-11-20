@@ -32,35 +32,19 @@ The dataset has this structure:
 
 |---|---├── Annotated_thermal_8_bit
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images
 
 |---|---├── RGB
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images
 
 |---|---├── thermal_8_bit
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images
 
 |---|---├── thermal_16_bit
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images 
 
 |---|---└── thermal_annotations.json
 
@@ -68,35 +52,19 @@ The dataset has this structure:
 
 |---|---├── Annotated_thermal_8_bit
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images
 
 |---|---├── RGB
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images
 
 |---|---├── thermal_8_bit
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images
 
 |---|---├── thermal_16_bit
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images
 
 |---|---└── thermal_annotations.json
 
@@ -104,35 +72,19 @@ The dataset has this structure:
 
 |---|---├── Annotated_thermal_8_bit
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images
 
 |---|---├── RGB
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images
 
 |---|---├── thermal_8_bit
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images 
 
 |---|---├── thermal_16_bit
 
-|---|---|---├── images 1
-
-|---|---|---├── images 2
-
-|---|---|---├── ...
+|---|---|---├── images
 
 |---|---└── thermal_annotations.json
 
