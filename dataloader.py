@@ -5,6 +5,7 @@ import torch.utils.data
 from PIL import Image
 import torch
 from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import random_split
 
 class FLIRDataset(Dataset):
 
