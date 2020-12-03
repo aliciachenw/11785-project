@@ -17,7 +17,7 @@ def get_model(num_classes, pre_train=True):
 
 def save_checkpoint(model, optimizer, scheduler, epoch, device, path):
     model.to("cpu")
-    model_name = path + str(epoch).zfill(4) + ".tar"
+    model_name = str(epoch).zfill(4) + ".tar"
     state = {
         'epoch': epoch,
         'model': model.state_dict(),
