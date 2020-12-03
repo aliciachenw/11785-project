@@ -4,9 +4,9 @@ import torch
 import os
 
       
-def get_model(num_classes):
+def get_model(num_classes, pre_train=True):
     # load an instance segmentation model pre-trained on COCO
-    model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=False, progress=True, num_classes=num_classes)
+    model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=pre_train, progress=True, num_classes=num_classes)
     # get the number of input features for the classifier
     in_features = model.roi_heads.box_predictor.cls_score.in_features
     # replace the pre-trained head with a new one
