@@ -12,4 +12,3 @@ def save_checkpoint(model, optimizer, scheduler, epoch, device, path):
     }
     torch.save(state, os.path.join(path, model_name))
     model.to(device)
-
