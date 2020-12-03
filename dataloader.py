@@ -30,9 +30,9 @@ class FLIRDataset(Dataset):
         # filter out negative instances without pedestrians
         for i, img in enumerate(imgs):
             annotation = list(filter(lambda x:x["image_id"] == img["id"], self.annotations))
-        if len(annotation) > 0:
-            self.imgs.append(img)
-            self.labels[img["id"]] = annotation
+            if len(annotation) > 0:
+                self.imgs.append(img)
+                self.labels[img["id"]] = annotation
         
         self.transforms = transforms
 
