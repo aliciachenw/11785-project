@@ -6,6 +6,10 @@ from PIL import Image
 import torch
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data import random_split
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import random
+
 
 class FLIRDataset(Dataset):
 
@@ -116,3 +120,21 @@ def get_dataloader(dataset, batch_size, is_train=False, labeled_ratio=1, trainin
 
 def collate_fn(batch):
     return tuple(zip(*batch))
+
+
+def check_dataloading(dataset):
+    """
+    visualize the image and annotation
+    """
+    image, target = dataset.__getitem__(random.randint(0, dataset.__len__() - 1))
+    image = image.detach().numpy()
+    image = image[0, :, :]
+
+    fig, ax = plt.subplots(1)
+    box = target["boxes"].detach().numpy()
+    ax.imshow(image, cmap='gray')
+    for i in range(box.shape[0]):
+      rect = patches.Rectangle((box[i, 0], box[i, 1]), box[i, 2] - box[i, 0], box[i, 3] - box[i, 1], linewidth=1, edgecolor='r', facecolor='none')
+      ax.add_patch(rect)
+
+    plt.show()
