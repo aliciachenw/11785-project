@@ -38,3 +38,20 @@ def load_checkpoint(model, optimizer, scheduler, device, checkpoint_path):
             if isinstance(v, torch.Tensor):
                 state[k] = v.to(device)
     return model, optimizer, scheduler, checkpoint['epoch']
+
+
+def get_model_output(model, images, device):
+    H = images[0].shape[1]
+    W = images[0].shape[2]
+    images = [img.to(device) for img in images]
+    image_shapes = [(H, W) for img in images]
+    images, targets = model.transform(images)
+    features = model.backbone(images.tensors)
+    if isinstance(features, torch.Tensor):
+        features = OrderedDict([('0', features)])
+    proposals, _ = model.rpn(images, features)
+
+    box_features = model.roi_heads.box_roi_pool(features, proposals, image_shapes)
+    box_features = model.roi_heads.box_head(box_features)
+    class_logits, box_regression = model.roi_heads.box_predictor(box_features)
+    return class_logits, box_regression
