@@ -29,14 +29,38 @@ class FLIRDataset(Dataset):
         self.annotations = list(filter(lambda x:x["category_id"]==1, json_data["annotations"]))
 
         self.imgs = []
-        self.labels = {}
+        labels = {}
+        self.targets = []
 
         # filter out negative instances without pedestrians
         for i, img in enumerate(imgs):
             annotation = list(filter(lambda x:x["image_id"] == img["id"], self.annotations))
             if len(annotation) > 0:
                 self.imgs.append(img)
-                self.labels[img["id"]] = annotation
+                labels[img["id"]] = annotation
+        
+        for i, img in enumerate(self.imgs):
+            img_id = img["id"]
+            img_annotations = self.labels[img_id]
+            num_objs = len(img_annotations)
+            boxes = []
+            area = []
+            for i, anno in enumerate(img_annotations):
+                bbox = anno["bbox"]
+                boxes.append([bbox[0], bbox[1], bbox[0] + bbox[2], bbox[1] + bbox[3]])
+                area.append(anno["area"])
+            boxes = torch.as_tensor(boxes, dtype=torch.float32)
+            labels = torch.ones((num_objs,), dtype=torch.int64)
+            area = torch.as_tensor(area, dtype=torch.float32)
+            iscrowd = torch.zeros((num_objs,), dtype=torch.int64)
+
+            target = {}
+            target["boxes"] = boxes
+            target["labels"] = labels
+            target["image_id"] = torch.tensor([img_id])
+            target["area"] = area
+            target["iscrowd"] = iscrowd
+            self.targets.append(target)
         
         self.transforms = transforms
 
@@ -47,33 +71,13 @@ class FLIRDataset(Dataset):
     def __getitem__(self, idx):
         # load images ad masks
         img = self.imgs[idx]
+        target= self.targets[idx]
         img_id = img["id"]
         img_filename = img["file_name"]
         img_path = os.path.join(self.root, img_filename)
         # img = Image.open(img_path).convert("RGB")
         img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
         img = torch.as_tensor(img, dtype=torch.float32).unsqueeze(0)
-
-
-        img_annotations = self.labels[img_id]
-        num_objs = len(img_annotations)
-        boxes = []
-        area = []
-        for i, anno in enumerate(img_annotations):
-            bbox = anno["bbox"]
-            boxes.append([bbox[0], bbox[1], bbox[0] + bbox[2], bbox[1] + bbox[3]])
-            area.append(anno["area"])
-        boxes = torch.as_tensor(boxes, dtype=torch.float32)
-        labels = torch.ones((num_objs,), dtype=torch.int64)
-        area = torch.as_tensor(area, dtype=torch.float32)
-        iscrowd = torch.zeros((num_objs,), dtype=torch.int64)
-
-        target = {}
-        target["boxes"] = boxes
-        target["labels"] = labels
-        target["image_id"] = torch.tensor([img_id])
-        target["area"] = area
-        target["iscrowd"] = iscrowd
 
         if self.transforms is not None:
             img, target = self.transforms(img, target)
