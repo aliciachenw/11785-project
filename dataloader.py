@@ -94,6 +94,17 @@ def split_training_dataset(dataset, labeled_ratio, training_ratio):
     unlabeled_train_dataset, unlabeled_val_dataset = split_dataset(unlabeled_dataset, training_ratio)
     return labeled_train_dataset, labeled_val_dataset, unlabeled_train_dataset, unlabeled_val_dataset
 
+
+def split_dataset(dataset, labeled_ratio=1, training_ratio=0.7):
+    # split into labeled and unlabeled
+    labeled_dataset, unlabeled_dataset = split_dataset(dataset, labeled_ratio)
+
+    # split into train and validation
+    labeled_train_dataset, labeled_val_dataset = split_dataset(labeled_dataset, training_ratio)
+    unlabeled_train_dataset, unlabeled_val_dataset = split_dataset(unlabeled_dataset, training_ratio)
+    return labeled_train_dataset, unlabeled_train_dataset, labeled_val_dataset, unlabeled_val_dataset
+        
+    
 def get_dataloader(dataset, batch_size, is_train=False, labeled_ratio=1, training_ratio=0.7):
     if is_train:
         # split into labeled and unlabeled
