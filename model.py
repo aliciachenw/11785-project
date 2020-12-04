@@ -18,12 +18,19 @@ def get_model(num_classes, pre_train=True):
 def save_checkpoint(model, optimizer, scheduler, epoch, device, path):
     model.to("cpu")
     model_name = str(epoch).zfill(4) + ".tar"
-    state = {
-        'epoch': epoch,
-        'model': model.state_dict(),
-        'optimizer': optimizer.state_dict(),
-        'scheduler': scheduler.state_dict(),
-    }
+    if scheduler is not None:
+        state = {
+            'epoch': epoch,
+            'model': model.state_dict(),
+            'optimizer': optimizer.state_dict(),
+            'scheduler': scheduler.state_dict(),
+        }
+    else:
+        state = {
+            'epoch': epoch,
+            'model': model.state_dict(),
+            'optimizer': optimizer.state_dict()
+        }
     torch.save(state, os.path.join(path, model_name))
     model.to(device)
 
@@ -32,7 +39,8 @@ def load_checkpoint(model, optimizer, scheduler, device, checkpoint_path):
     checkpoint = torch.load(checkpoint_path)
     model.load_state_dict(checkpoint['model'])
     optimizer.load_state_dict(checkpoint['optimizer'])
-    scheduler.load_state_dict(checkpoint['scheduler'])
+    if scheduler is not None:
+        scheduler.load_state_dict(checkpoint['scheduler'])
     for state in optimizer.state.values():
         for k, v in state.items():
             if isinstance(v, torch.Tensor):
