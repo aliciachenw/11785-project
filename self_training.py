@@ -45,7 +45,7 @@ def self_training(model, labeled_dataset, unlabeled_dataset, optimizer, schedule
         unlabeled_loss = evaluate(model, vld_loader, device, epoch, print_freq)
 
         loss = labeled_loss + unlabeled_loss_weight * unlabeled_loss
-        if loss < last_loss and save_path is not None:
+        if save_path is not None:
             save_checkpoint(model, optimizer, scheduler, epoch + 1, device, save_path)
             last_loss = loss
             print("save model, loss {}".format(loss))
