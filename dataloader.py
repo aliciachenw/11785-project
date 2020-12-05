@@ -13,9 +13,8 @@ import random
 
 def read_image(image_path):
     # img = Image.open(img_path).convert("RGB")
-    img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE) / 255.
     img = torch.as_tensor(img, dtype=torch.float32).unsqueeze(0)
-    img = img / 255.
     return img
     
 
