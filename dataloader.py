@@ -9,9 +9,13 @@ from torch.utils.data import random_split
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import random
+from torch.utils.data import Subset
 
 
 def read_image(image_path):
+    """
+    read grayscale image and normalize it
+    """
     # img = Image.open(img_path).convert("RGB")
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE) / 255.
     img = torch.as_tensor(img, dtype=torch.float32).unsqueeze(0)
@@ -19,8 +23,15 @@ def read_image(image_path):
     
 
 class FLIRDataset(Dataset):
+    """
+    FLIR Dataset initalization (with label)
+    """
 
     def __init__(self, root, json_file_name, transforms=None):
+        """
+        root: root of folder (save the json file)
+        json_file_name: json file which stores data and annotations
+        """
         self.root = root
         print(root)
         json_file = os.path.join(root, json_file_name)
@@ -93,6 +104,9 @@ class FLIRDataset(Dataset):
     
 
 def split_dataset(dataset, ratio, seed=1):
+    """
+    randomly split one dataset to two dataset with ratio / 1 - ratio data
+    """
     torch.manual_seed(seed)
     data_len = dataset.__len__()
     num_part = int(np.ceil(data_len * ratio))
@@ -100,7 +114,9 @@ def split_dataset(dataset, ratio, seed=1):
     return dataset_1, dataset_2
 
 def split_training_dataset(dataset, labeled_ratio, training_ratio):
-    # split the dataset in train and vaidation set
+    """
+    split the dataset in train and vaidation set
+    """
     labeled_dataset, unlabeled_dataset = split_dataset(dataset, labeled_ratio)
     labeled_train_dataset, labeled_val_dataset = split_dataset(labeled_dataset, training_ratio)
     unlabeled_train_dataset, unlabeled_val_dataset = split_dataset(unlabeled_dataset, training_ratio)
@@ -127,6 +143,9 @@ def get_dataloader(dataset, batch_size, is_train=False, labeled_ratio=1, trainin
         return dataloader
 
 def collate_fn(batch):
+    """
+    collate function
+    """
     return tuple(zip(*batch))
 
 
@@ -146,3 +165,16 @@ def check_dataloading(dataset):
       ax.add_patch(rect)
 
     plt.show()
+
+    
+def convert_subset(sub_dataset):
+    """
+    convert a subset of a subset to a subset of normal dataset
+    """
+    dataset = sub_dataset.dataset.dataset
+    indices = sub_dataset.indices
+    upper_indices = sub_dataset.dataset.indices
+    new_indices = [upper_indices[i] for i in indices]
+    new_subset = Subset(dataset=dataset, indices=new_indices)
+    assert new_subset.__len__() == sub_dataset.__len()__
+    return new_subset
