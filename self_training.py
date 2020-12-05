@@ -24,8 +24,8 @@ def self_training(model, labeled_dataset, unlabeled_dataset, optimizer, schedule
     train_unlabeled_dataset = convert_subset(train_unlabeled_dataset)
     val_unlabeled_dataset = convert_subset(val_unlabeled_dataset)
  
-    pseudo_train = FLIRPseudoDataset(model, train_unlabeled_dataset, DEVICE, score_threshold)
-    pseudo_val = FLIRPseudoDataset(model, val_unlabeled_dataset, DEVICE, score_threshold)
+    pseudo_train = FLIRPseudoDataset(model, train_unlabeled_dataset, device, score_threshold)
+    pseudo_val = FLIRPseudoDataset(model, val_unlabeled_dataset, device, score_threshold)
 
     if checkpoint is not None:
         print("loading checkpoint:" + checkpoint)
@@ -73,8 +73,8 @@ def train_one_epoch_self_training(model, optimizer, data_loader, weight, device,
         # losses = loss_dict['loss_classifier'] + loss_dict['loss_box_reg']
         # reduce losses over all GPUs for logging purposes
         loss_dict_reduced = utils.reduce_dict(loss_dict)
-        # losses_reduced = sum(loss for loss in loss_dict_reduced.values())
-        losses_reduced = loss_dict_reduced['loss_classifier'] + loss_dict_reduced['loss_box_reg']
+        losses_reduced = sum(loss for loss in loss_dict_reduced.values())
+        # losses_reduced = loss_dict_reduced['loss_classifier'] + loss_dict_reduced['loss_box_reg']
 
         loss_value = losses_reduced.item()
 
