@@ -243,5 +243,4 @@ def convert_subset(sub_dataset):
     upper_indices = sub_dataset.dataset.indices
     new_indices = [upper_indices[i] for i in indices]
     new_subset = Subset(dataset=dataset, indices=new_indices)
-    assert new_subset.__len__() == sub_dataset.__len()__
     return new_subset
