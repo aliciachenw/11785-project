@@ -5,7 +5,7 @@ import torch
 import transforms as T
 import utils
 from model import save_checkpoint, load_checkpoint
-from dataloader import collate_fn, split_dataset, FLIRPseudoDataset
+from dataloader import collate_fn, split_dataset, FLIRPseudoDataset, convert_subset
 from torch.utils.data import DataLoader
 import numpy as np
 from train_teacher import evaluate
