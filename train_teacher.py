@@ -6,6 +6,7 @@ import transforms as T
 import utils
 from model import save_checkpoint, load_checkpoint
 from dataloader import collate_fn, split_dataset
+from torch.utils.data import DataLoader
 
 
 def train_teacher_model(model, optimizer, scheduler, labeled_dataset, train_ratio, batch_size, device, max_epochs, print_freq, save_path, checkpoint=None):
