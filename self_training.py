@@ -48,6 +48,10 @@ def self_training(model, labeled_dataset, unlabeled_dataset, optimizer, schedule
         if loss < last_loss and save_path is not None:
             save_checkpoint(model, optimizer, scheduler, epoch + 1, device, save_path)
             last_loss = loss
+            print("save model, loss {}".format(loss))
+        else:
+            print("loss {}".format(loss))
+            
         if scheduler is not None:
             scheduler.step()
         if relabel_step != None:
