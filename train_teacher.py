@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 import numpy as np
 
 
-def train_teacher_model(model, optimizer, scheduler, labeled_dataset, train_ratio, batch_size, device, max_epochs, print_freq, save_path, checkpoint=None):
+def train_teacher_model(model, labeled_dataset, optimizer, scheduler=None, train_ratio=0.7, batch_size=4, device='cpu', max_epochs=100, print_freq=10, save_path=None, checkpoint=None):
     model.to(device)
     metric_logger = utils.MetricLogger(delimiter=" ")
     last_loss = 1e9
@@ -28,7 +28,7 @@ def train_teacher_model(model, optimizer, scheduler, labeled_dataset, train_rati
         train_one_epoch(model, optimizer, train_loader, device, epoch, print_freq)
         loss = evaluate(model, vld_loader, device, epoch, print_freq)
         
-        if loss < last_loss:
+        if loss < last_loss and save_path != None:
             save_checkpoint(model, optimizer, scheduler, epoch + 1, device, save_path)
             last_loss = loss
         if scheduler is not None:
@@ -80,7 +80,6 @@ def train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq):
 
 
 def evaluate(model, data_loader, device, epoch, print_freq):  # test overfitting
-    # todo: in eval mode only return results directly, need to write evaluator! 
     metric_logger = utils.MetricLogger(delimiter="  ")
     header = 'Validation'.format(epoch)
     sum_loss = []
