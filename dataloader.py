@@ -11,6 +11,14 @@ import matplotlib.patches as patches
 import random
 
 
+def read_image(image_path):
+    # img = Image.open(img_path).convert("RGB")
+    img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+    img = torch.as_tensor(img, dtype=torch.float32).unsqueeze(0)
+    img = img / 255.
+    return img
+    
+
 class FLIRDataset(Dataset):
 
     def __init__(self, root, json_file_name, transforms=None):
@@ -75,10 +83,7 @@ class FLIRDataset(Dataset):
         img_id = img["id"]
         img_filename = img["file_name"]
         img_path = os.path.join(self.root, img_filename)
-        # img = Image.open(img_path).convert("RGB")
-        img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
-        img = torch.as_tensor(img, dtype=torch.float32).unsqueeze(0)
-
+        img = read_image(img_path)
         if self.transforms is not None:
             img, target = self.transforms(img, target)
 
