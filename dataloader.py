@@ -101,6 +101,73 @@ class FLIRDataset(Dataset):
 
     def pseudo_labeling():
         pass
+
+    
+class FLIRPseudoDataset(Dataset):
+    """
+    dataset that contains pseudo labeling
+    """
+    def __init__(self, model, sub_dataset, device, score_threshold, transforms=None):
+        model.eval()
+        model = model.to(device)
+        dataset = sub_dataset.dataset
+        indices = sub_dataset.indices
+
+        self.root = dataset.root
+        self.imgs = []
+        labels = {}
+        self.targets = []
+
+        dataloader = DataLoader(sub_dataset, batch_size=BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
+
+        idx = 0
+        with torch.no_grad():
+            for i, (images, targets) in enumerate(dataloader):
+                length = len(images)
+                images = [img.to(DEVICE) for img in images]
+                preds = model(images)
+                # preds: a list of prediction
+                # {boxes: tensor [N x 1], labels: tensor [N x 1], scores: tensor [N x 1]}
+                for prediction in preds:
+                    img = dataset.imgs[indices[idx]]
+                    img_id = img["id"]
+                    img_filename = img["file_name"]
+                    annotations = []
+                    index = prediction["scores"] > score_threshold
+                    if sum(index.type(torch.int)) > 0:
+                        target = {}
+                        boxes = prediction["boxes"][index, :]
+                        target["boxes"] = boxes.to('cpu').detach()
+                        target["labels"] = prediction["labels"][index].to('cpu').detach()
+                        target["image_id"] = torch.tensor([img_id])
+                        target["area"] = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
+                        target["iscrowd"] = torch.zeros((len(index),), dtype=torch.int64)
+                        self.imgs.append(img)
+                        self.targets.append(target)
+
+                    idx += 1
+                del images
+                del preds
+                torch.cuda.empty_cache()
+        
+        self.transforms = transforms
+
+      
+    def __len__(self):
+        return len(self.imgs)
+
+    def __getitem__(self, idx):
+        # load images ad masks
+        img = self.imgs[idx]
+        img_id = img["id"]
+        img_filename = img["file_name"]
+        img_path = os.path.join(self.root, img_filename)
+        img = read_image(img_path)
+        target = self.targets[idx]
+
+        if self.transforms is not None:
+            img, target = self.transforms(img, target)
+        return img, target
     
 
 def split_dataset(dataset, ratio, seed=1):
