@@ -24,8 +24,8 @@ def self_training(model, labeled_dataset, unlabeled_dataset, optimizer, schedule
     train_unlabeled_dataset = convert_subset(train_unlabeled_dataset)
     val_unlabeled_dataset = convert_subset(val_unlabeled_dataset)
  
-    pseudo_train = FLIRPseudoDataset(model, train_unlabeled_dataset, device, score_threshold)
-    pseudo_val = FLIRPseudoDataset(model, val_unlabeled_dataset, device, score_threshold)
+    pseudo_train = FLIRPseudoDataset(model, train_unlabeled_dataset, batch_size=batch_size, device=device, score_threshold=score_threshold)
+    pseudo_val = FLIRPseudoDataset(model, val_unlabeled_dataset, batch_size=batch_size, device=device, score_threshold=score_threshold)
 
     if checkpoint is not None:
         print("loading checkpoint:" + checkpoint)
@@ -52,8 +52,8 @@ def self_training(model, labeled_dataset, unlabeled_dataset, optimizer, schedule
             scheduler.step()
         if relabel_step != None:
             if epoch % relabel_step == 0 and epoch != 0:
-                pseudo_train = FLIRPseudoDataset(model, train_unlabeled_dataset, device, score_threshold)
-                pseudo_val = FLIRPseudoDataset(model, val_unlabeled_dataset, device, score_threshold)
+                pseudo_train = FLIRPseudoDataset(model, train_unlabeled_dataset, batch_size=batch_size, device=device, score_threshold=score_threshold)
+                pseudo_val = FLIRPseudoDataset(model, val_unlabeled_dataset, batch_size=batch_size, device=device, score_threshold=score_threshold)
                 
 
 def train_one_epoch_self_training(model, optimizer, data_loader, weight, device, epoch, print_freq):
