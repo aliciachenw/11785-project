@@ -107,7 +107,7 @@ class FLIRPseudoDataset(Dataset):
     """
     dataset that contains pseudo labeling
     """
-    def __init__(self, model, sub_dataset, device, score_threshold, transforms=None):
+    def __init__(self, model, sub_dataset, batch_size, device, score_threshold, transforms=None):
         model.eval()
         model = model.to(device)
         dataset = sub_dataset.dataset
@@ -118,13 +118,13 @@ class FLIRPseudoDataset(Dataset):
         labels = {}
         self.targets = []
 
-        dataloader = DataLoader(sub_dataset, batch_size=BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
+        dataloader = DataLoader(sub_dataset, batch_size=batch_size, shuffle=False, collate_fn=collate_fn)
 
         idx = 0
         with torch.no_grad():
             for i, (images, targets) in enumerate(dataloader):
                 length = len(images)
-                images = [img.to(DEVICE) for img in images]
+                images = [img.to(device) for img in images]
                 preds = model(images)
                 # preds: a list of prediction
                 # {boxes: tensor [N x 1], labels: tensor [N x 1], scores: tensor [N x 1]}
