@@ -37,7 +37,7 @@ class FLIRDataset(Dataset):
         self.annotations = list(filter(lambda x:x["category_id"]==1, json_data["annotations"]))
 
         self.imgs = []
-        labels = {}
+        all_labels = {}
         self.targets = []
 
         # filter out negative instances without pedestrians
@@ -45,11 +45,11 @@ class FLIRDataset(Dataset):
             annotation = list(filter(lambda x:x["image_id"] == img["id"], self.annotations))
             if len(annotation) > 0:
                 self.imgs.append(img)
-                labels[img["id"]] = annotation
+                all_labels[img["id"]] = annotation
         
         for i, img in enumerate(self.imgs):
             img_id = img["id"]
-            img_annotations = self.labels[img_id]
+            img_annotations = all_labels[img_id]
             num_objs = len(img_annotations)
             boxes = []
             area = []
