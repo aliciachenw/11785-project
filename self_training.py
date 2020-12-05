@@ -11,7 +11,7 @@ import numpy as np
 from train_teacher import evaluate
 
 
-def self_training(model, optimizer, scheduler, labeled_dataset, unlabeled_dataset, batch_size=4, train_ratio=0.7, score_threshold=0.7, unlabeled_loss_weight=0.1, relabel_step=None,
+def self_training(model, labeled_dataset, unlabeled_dataset, optimizer, scheduler=None, batch_size=4, train_ratio=0.7, score_threshold=0.7, unlabeled_loss_weight=0.1, relabel_step=None,
                   device='cpu', max_epochs=100, print_freq=10, save_path=None, checkpoint=None):
     model.to(device)
     metric_logger = utils.MetricLogger(delimiter=" ")
