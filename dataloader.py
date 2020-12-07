@@ -137,6 +137,10 @@ class FLIRPseudoDataset(Dataset):
                     if sum(index.type(torch.int)) > 0:
                         target = {}
                         boxes = prediction["boxes"][index, :]
+                        valid_box_index = boxes[:, 3] >= boxes[:, 1]
+                        boxes = boxes[valid_box_index, :]
+                        valid_box_index = boxes[:, 2] >= boxes[:, 0]
+                        boxes = boxes[valid_box_index, :]
                         target["boxes"] = boxes.to('cpu').detach()
                         target["labels"] = prediction["labels"][index].to('cpu').detach()
                         target["image_id"] = torch.tensor([img_id])
