@@ -3,20 +3,20 @@ import sys
 import time
 import torch
 
-import torchvision.models.detection.mask_rcnn
-
 from coco_utils import get_coco_api_from_dataset
 from coco_eval import CocoEvaluator
 import utils
 
+"""
+Reference: torchvision/detection/evaluate
+use the coco api from torchvision to get coco evaluator
+"""
 
 def _get_iou_types(model):
     iou_types = ["bbox"]
     return iou_types
 
-"""
-torchvision/detection/evaluate
-"""
+
 def coco_evaluate(model, data_loader, device):
     with torch.no_grad():
         n_threads = torch.get_num_threads()
