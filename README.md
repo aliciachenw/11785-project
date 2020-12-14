@@ -1,4 +1,4 @@
-# 11785-final-project: Transfer learning for pedestrian detection in thermal images
+# 11785-final-project: Self-learning for pedestrian detection in thermal images
 
 Introduction
 --
@@ -6,19 +6,22 @@ The repository contains two baseline model for fine-tuning Mask RCNN and Faster 
 
 Dependency
 --
-The system and pre-trained models are developed based on [Detectron2](https://github.com/facebookresearch/detectron2), which is an actively maintained open-source R-CNN system with lots of pre-trained models. It has a flexible training and evaluation configuration, giving users the flexibility to customize their own training loops and evaluators.
+The system and pre-trained models are developed based on torchvision.
 
-The scripts all include how to download the Detectron2.
 
-Baseline models
+Main scripts:
 --
-1. project-fine-tuning-mask-rcnn.ipynb: 
-  This is a fine-tuning script for Mask RCNN.
+main_self_training.ipynb
 
-2. project-fine-tuning-faster-rcnn: 
-  This is a fine-tuning script for Mask RCNN.
 
-More descriptions of how to run are in the scripts.
+Helper functions:
+--
+dataloader.py: functions to deal with the dataset, include train/val splitting, dataset, pseudo labeling, visualization tools
+
+train_teacher.py: train a teacher model
+
+self_training.py: using true labels and pseudo labels to train the model
+
 
 Dataset and preparing
 --
